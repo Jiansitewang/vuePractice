@@ -22,11 +22,7 @@ new Vue({
   el:'.todoapp',
   data:{
     msg:'',
-    todos:[
-      {
-      content:null,
-      completed:false
-    }],
+    todos:[],
     editedTodo: null
   },
   computed:{
@@ -46,6 +42,9 @@ new Vue({
   },
   methods:{
     addTodo(){
+      if(!this.msg){
+        return
+      }
       this.todos.push({
         content:this.msg,
         completed:false
@@ -56,8 +55,22 @@ new Vue({
       this.todos.splice(index,1)
     },
     editTodo(todo){
+      this.editCache = todo.content
       this.editedTodo = todo
     },
+    doneEdit(todo,index){
+      this.editedTodo = null
+      if(!todo.content){
+      this.removeTodo(index)
+      }
+    },
+    cancelEdit(todo){
+      this.editedTodo = null
+      todo.content = this.editCache
+    },
+    clear(){
+     this.todos = filters.active(this.todos)
+    }
   },
   directives:{
     focus(el,value){

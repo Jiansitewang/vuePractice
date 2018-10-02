@@ -36,7 +36,8 @@
 							<label @dblclick="editTodo(todo)">{{todo.content}}</label>
 							<button class="destroy" @click="removeTodo(index)"></button>
 						</div>
-						<input class="edit" v-model="todo.content" v-focus="todo === editedTodo">
+						<input class="edit" v-model="todo.content" v-focus="todo === editedTodo"
+            @blur="doneEdit(todo,index)" @keyup.esc="cancelEdit(todo)" @keyup.enter="doneEdit(todo)">
 					</li>
 				</ul>
 			</section>
@@ -57,7 +58,7 @@
 					</li>
 				</ul>
 				<!-- Hidden if no completed items are left ↓ -->
-				<button class="clear-completed">Clear completed</button>
+				<button class="clear-completed" @click="clear">Clear completed</button>
 			</footer>
 		</section>
 		<footer class="info">
