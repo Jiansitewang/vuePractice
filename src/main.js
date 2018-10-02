@@ -1,9 +1,4 @@
-//
-// Vue.config.productionTip = false
-//
-// new Vue({
-//   render: h => h(App)
-// }).$mount('#app')
+
 import 'todomvc-app-css/index.css'
 import Vue from 'vue'
 
@@ -32,10 +27,21 @@ new Vue({
       content:null,
       completed:false
     }],
+    editedTodo: null
   },
   computed:{
     remain(){
       return filters.active(this.todos).length
+    },
+    isAll:{
+      get(){
+        return this.remain === 0
+      },
+      set(value){
+        this.todos.forEach((todo)=>{
+          todo.completed = value
+        })
+      }
     }
   },
   methods:{
@@ -48,8 +54,19 @@ new Vue({
     },
     removeTodo(index){
       this.todos.splice(index,1)
+    },
+    editTodo(todo){
+      this.editedTodo = todo
+    },
+  },
+  directives:{
+    focus(el,value){
+      if(value){
+        el.focus()
+      }
     }
   }
+
 })
 
 // new Vue({
