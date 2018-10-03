@@ -18,12 +18,13 @@ let filters = {
   }
 }
 
-new Vue({
+let app = new Vue({
   el:'.todoapp',
   data:{
     msg:'',
     todos:[],
-    editedTodo: null
+    editedTodo: null,
+    filterName: 'all'
   },
   computed:{
     remain(){
@@ -38,6 +39,9 @@ new Vue({
           todo.completed = value
         })
       }
+    },
+    filteredTodos(){
+      return filters[this.filterName](this.todos)
     }
   },
   methods:{
@@ -82,7 +86,13 @@ new Vue({
 
 })
 
-// new Vue({
-//   el:".todoapp"
-//
-// })
+function hashChange(){
+  let xxx = location.hash.replace(/#\/?/,'')
+  if(filters[xxx]){
+    app.filterName = xxx
+  }else{
+    location.hash = ''
+    app.filterName = 'all'
+  }
+}
+window.addEventListener('hashchange',hashChange)
